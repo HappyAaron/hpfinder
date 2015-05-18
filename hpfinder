@@ -1,0 +1,44 @@
+#!/bin/sh
+if [ -n "$2" ];then
+path=$2
+else
+path=`pwd`
+fi
+
+cd $path
+for i in `ls`
+do 
+log=$path/$i
+if [ -d "$log" ];then
+cd $log
+
+for j in `ls`
+do
+
+if [ -f "$j" ];then
+rs=`cat $j|grep $1`
+if [ -n "$rs" ];then
+echo ==== in `pwd`/$j =====
+cat $j|grep $1
+echo ==== end =====
+echo
+fi
+else
+npath=`pwd`
+myfind $1 $npath 
+fi
+
+done
+
+else
+
+rs=`cat $log|grep $1`
+if [ -n "$rs" ];then
+echo ==== in $log =====
+cat $log|grep $1
+echo ==== end =====
+echo
+fi
+
+fi
+done
